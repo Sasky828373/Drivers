@@ -115,7 +115,10 @@ build_lib_for_android(){
 	if [[ "$BUILD_VARIANT" == "p" || "$BUILD_VARIANT" == "p1" || "$BUILD_VARIANT" == "p2" ]] && [ -f "../../patches/apply_perf_variant.py" ]; then
 		echo "Applying performance variant scripts..."
 		python3 "../../patches/apply_perf_variant.py" || { echo -e "${red}Perf variant script failed!${nocolor}"; exit 1; }
-	elif [ "$BUILD_VARIANT" == "g9" ] && [ -f "../../patches/apply_gtav_a840_gmem9.py" ]; then
+	elif [ "$BUILD_VARIANT" == "gs" ] && [ -f "../../patches/apply_gtav_a840_submit.py" ]; then
+  echo "Applying GTAV/A840 GMEM-10 submit-thread variant..."
+  python3 "../../patches/apply_gtav_a840_submit.py" || exit 1
+elif [ "$BUILD_VARIANT" == "g9" ] && [ -f "../../patches/apply_gtav_a840_gmem9.py" ]; then
   echo "Applying GTAV/A840 GMEM-9 A/B variant..."
   python3 "../../patches/apply_gtav_a840_gmem9.py" || exit 1
 elif [ "$BUILD_VARIANT" == "g8" ] && [ -f "../../patches/apply_gtav_a840_gmem8.py" ]; then
@@ -225,7 +228,10 @@ EOF
 	elif [ "$BUILD_VARIANT" == "p2" ]; then
 		variant_name="WN-Turnip-${BUILD_VERSION}-p2 Axxx"
 		variant_desc="WinNative Turnip ${BUILD_VERSION} Performance++"
-	elif [ "$BUILD_VARIANT" == "g9" ]; then
+	elif [ "$BUILD_VARIANT" == "gs" ]; then
+  variant_name="WN-Turnip-${BUILD_VERSION}-GTAV-A840-SUBMIT"
+  variant_desc="GTAV/A840 GMEM-10 + Mesa submit thread, normal KGSL power"
+elif [ "$BUILD_VARIANT" == "g9" ]; then
   variant_name="WN-Turnip-${BUILD_VERSION}-GTAV-A840-GMEM9"
   variant_desc="GTAV/A840 GMEM-9 A/B - normal KGSL power"
 elif [ "$BUILD_VARIANT" == "g8" ]; then
