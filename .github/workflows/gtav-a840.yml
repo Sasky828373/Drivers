@@ -30,6 +30,10 @@ jobs:
           chmod +x build_wn_turnip.sh build_turnip.sh
           export MESA_PIN_COMMIT=82d4f86a0a1e9f76b2de4fa77c6c8e6acaf06aa9
           export MESA_VK_ENABLE_SUBMIT_THREAD=true
+          git clone https://gitlab.freedesktop.org/mesa/mesa.git mesa_v3
+          git -C mesa_v3 fetch origin "$MESA_PIN_COMMIT" --depth=1
+          git -C mesa_v3 checkout "$MESA_PIN_COMMIT"
+          export MESA_LOCAL_SRC="$PWD/mesa_v3"
           ./build_wn_turnip.sh
           test -f ../WN-Turnip-3.0-gtav-submit-gs_Axxx.zip
       - name: Collect artifact
