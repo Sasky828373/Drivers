@@ -24,8 +24,8 @@ jobs:
           echo "ANDROID_NDK_HOME=$HOME/android-ndk-r26d" >> "$GITHUB_ENV"
       - name: Build WN 1.17 GTAV A840
         env:
-          BUILD_VARIANTS: "gsy"
-          BUILD_VERSION: 4.0-gtav-sysmem
+          BUILD_VARIANTS: "g5"
+          BUILD_VERSION: 5.0-gtav-kgsl
         run: |
           chmod +x build_wn_turnip.sh build_turnip.sh
           export MESA_PIN_COMMIT=82d4f86a0a1e9f76b2de4fa77c6c8e6acaf06aa9
@@ -34,13 +34,13 @@ jobs:
           git -C mesa_v3 checkout "$MESA_PIN_COMMIT"
           export MESA_LOCAL_SRC="$PWD/mesa_v3"
           ./build_wn_turnip.sh
-          test -f ../WN-Turnip-4.0-gtav-sysmem-gsy_Axxx.zip
+          test -f ../WN-Turnip-5.0-gtav-kgsl-g5_Axxx.zip
       - name: Collect artifact
         run: |
           mkdir -p out
-          cp ../WN-Turnip-4.0-gtav-sysmem-gsy_Axxx.zip out/
+          cp ../WN-Turnip-5.0-gtav-kgsl-g5_Axxx.zip out/
       - uses: actions/upload-artifact@v4
         with:
-          name: WN-Turnip-4.0-GTAV-A840-SYSMEM
-          path: out/WN-Turnip-4.0-gtav-sysmem-gsy_Axxx.zip
+          name: WN-Turnip-5.0-GTAV-A840-KGSL
+          path: out/WN-Turnip-5.0-gtav-kgsl-g5_Axxx.zip
           if-no-files-found: error
