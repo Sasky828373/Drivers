@@ -25,17 +25,18 @@ jobs:
       - name: Build WN 1.17 GTAV A840
         env:
           BUILD_VARIANTS: g
-          BUILD_VERSION: 1.17-gtav
+          BUILD_VERSION: 2.0-gtav
         run: |
           chmod +x build_wn_turnip.sh build_turnip.sh
+          export MESA_PIN_COMMIT=82d4f86a0a1e9f76b2de4fa77c6c8e6acaf06aa9
           ./build_wn_turnip.sh
-          test -f ../WN-Turnip-1.17-gtav-g_Axxx.zip || test -f WN-Turnip-1.17-gtav-g_Axxx.zip
+          test -f ../WN-Turnip-2.0-gtav-g_Axxx.zip || test -f WN-Turnip-2.0-gtav-g_Axxx.zip
       - name: Collect artifact
         run: |
           mkdir -p out
-          cp ../WN-Turnip-1.17-gtav-g_Axxx.zip out/ 2>/dev/null || cp WN-Turnip-1.17-gtav-g_Axxx.zip out/
+          cp ../WN-Turnip-2.0-gtav-g_Axxx.zip out/ 2>/dev/null || cp WN-Turnip-2.0-gtav-g_Axxx.zip out/
       - uses: actions/upload-artifact@v4
         with:
-          name: WN-Turnip-1.17-GTAV-A840
-          path: out/WN-Turnip-1.17-gtav-g_Axxx.zip
+          name: WN-Turnip-2.0-GTAV-A840
+          path: out/WN-Turnip-2.0-gtav-g_Axxx.zip
           if-no-files-found: error
