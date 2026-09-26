@@ -38,6 +38,7 @@ echo "$MESA_VERSION" > "$SCRIPT_DIR/mesa_version.txt"
 echo "Mesa: $MESA_COMMIT ($MESA_VERSION)"
 
 read -ra variants <<< "${BUILD_VARIANTS:-b p}"
+# GTAV/A840 build: BUILD_VARIANTS="g" BUILD_VERSION="1.17-gtav" ./build_wn_turnip.sh
 
 for variant in "${variants[@]}"; do
 	echo ""
