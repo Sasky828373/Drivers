@@ -1,0 +1,40 @@
+name: Build GTAV A840 Turnip
+
+on:
+  push:
+    branches: [gtav-a840]
+  workflow_dispatch:
+
+jobs:
+  build-gtav-a840:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ninja-build patchelf unzip curl python3-pip flex bison zip glslang-tools ccache
+          sudo python3 -m pip install --quiet --break-system-packages "meson>=1.4" mako
+      - name: Install Android NDK r26d
+        run: |
+          curl -L --fail -o /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r26d-linux.zip
+          unzip -q /tmp/ndk.zip -d "$HOME"
+          echo "ANDROID_NDK_HOME=$HOME/android-ndk-r26d" >> "$GITHUB_ENV"
+      - name: Build WN 1.17 GTAV A840
+        env:
+          BUILD_VARIANTS: g
+          BUILD_VERSION: 1.17-gtav
+        run: |
+          chmod +x build_wn_turnip.sh build_turnip.sh
+          ./build_wn_turnip.sh
+          test -f ../WN-Turnip-1.17-gtav-g_Axxx.zip || test -f WN-Turnip-1.17-gtav-g_Axxx.zip
+      - name: Collect artifact
+        run: |
+          mkdir -p out
+          cp ../WN-Turnip-1.17-gtav-g_Axxx.zip out/ 2>/dev/null || cp WN-Turnip-1.17-gtav-g_Axxx.zip out/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WN-Turnip-1.17-GTAV-A840
+          path: out/WN-Turnip-1.17-gtav-g_Axxx.zip
+          if-no-files-found: error
