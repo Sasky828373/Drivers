@@ -18,7 +18,7 @@ mesasrc="https://gitlab.freedesktop.org/mesa/mesa"
 srcfolder="mesa"
 MESA_COMMIT="$(cat mesa_hash.txt | tr -d '[:space:]')"
 
-# BUILD_VARIANT should be one of: b, p, p1, p2
+# BUILD_VARIANT should be one of: b, p, p1, p2, g (GTAV/A840)
 BUILD_VARIANT="${BUILD_VARIANT:-b}"
 
 run_all(){
@@ -115,6 +115,9 @@ build_lib_for_android(){
 	if [[ "$BUILD_VARIANT" == "p" || "$BUILD_VARIANT" == "p1" || "$BUILD_VARIANT" == "p2" ]] && [ -f "../../patches/apply_perf_variant.py" ]; then
 		echo "Applying performance variant scripts..."
 		python3 "../../patches/apply_perf_variant.py" || { echo -e "${red}Perf variant script failed!${nocolor}"; exit 1; }
+	elif [ "$BUILD_VARIANT" == "g" ] && [ -f "../../patches/apply_gtav_a840_variant.py" ]; then
+		echo "Applying GTAV/A840 variant scripts (normal KGSL power management)..."
+		python3 "../../patches/apply_gtav_a840_variant.py" || { echo -e "${red}GTAV/A840 variant script failed!${nocolor}"; exit 1; }
 	elif [ "$BUILD_VARIANT" == "b" ] && [ -f "../../patches/apply_balance_variant.py" ]; then
 		echo "Applying balance variant scripts..."
 		python3 "../../patches/apply_balance_variant.py" || { echo -e "${red}Balance variant script failed!${nocolor}"; exit 1; }
@@ -216,6 +219,9 @@ EOF
 	elif [ "$BUILD_VARIANT" == "p2" ]; then
 		variant_name="WN-Turnip-${BUILD_VERSION}-p2 Axxx"
 		variant_desc="WinNative Turnip ${BUILD_VERSION} Performance++"
+	elif [ "$BUILD_VARIANT" == "g" ]; then
+		variant_name="WN-Turnip-${BUILD_VERSION}-GTAV-A840"
+		variant_desc="WinNative Turnip ${BUILD_VERSION} GTAV/A840 - aggressive autotune, normal KGSL power"
 	else
 		variant_name="WN-Turnip-${BUILD_VERSION}-b Axxx"
 		variant_desc="WinNative Turnip ${BUILD_VERSION} Balanced"
