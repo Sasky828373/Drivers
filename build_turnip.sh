@@ -115,7 +115,13 @@ build_lib_for_android(){
 	if [[ "$BUILD_VARIANT" == "p" || "$BUILD_VARIANT" == "p1" || "$BUILD_VARIANT" == "p2" ]] && [ -f "../../patches/apply_perf_variant.py" ]; then
 		echo "Applying performance variant scripts..."
 		python3 "../../patches/apply_perf_variant.py" || { echo -e "${red}Perf variant script failed!${nocolor}"; exit 1; }
-	elif [ "$BUILD_VARIANT" == "g" ] && [ -f "../../patches/apply_gtav_a840_variant.py" ]; then
+	elif [ "$BUILD_VARIANT" == "g9" ] && [ -f "../../patches/apply_gtav_a840_gmem9.py" ]; then
+  echo "Applying GTAV/A840 GMEM-9 A/B variant..."
+  python3 "../../patches/apply_gtav_a840_gmem9.py" || exit 1
+elif [ "$BUILD_VARIANT" == "g8" ] && [ -f "../../patches/apply_gtav_a840_gmem8.py" ]; then
+  echo "Applying GTAV/A840 GMEM-8 A/B variant..."
+  python3 "../../patches/apply_gtav_a840_gmem8.py" || exit 1
+elif [ "$BUILD_VARIANT" == "g" ] && [ -f "../../patches/apply_gtav_a840_variant.py" ]; then
 		echo "Applying GTAV/A840 variant scripts (normal KGSL power management)..."
 		python3 "../../patches/apply_gtav_a840_variant.py" || { echo -e "${red}GTAV/A840 variant script failed!${nocolor}"; exit 1; }
 	elif [ "$BUILD_VARIANT" == "b" ] && [ -f "../../patches/apply_balance_variant.py" ]; then
@@ -219,7 +225,13 @@ EOF
 	elif [ "$BUILD_VARIANT" == "p2" ]; then
 		variant_name="WN-Turnip-${BUILD_VERSION}-p2 Axxx"
 		variant_desc="WinNative Turnip ${BUILD_VERSION} Performance++"
-	elif [ "$BUILD_VARIANT" == "g" ]; then
+	elif [ "$BUILD_VARIANT" == "g9" ]; then
+  variant_name="WN-Turnip-${BUILD_VERSION}-GTAV-A840-GMEM9"
+  variant_desc="GTAV/A840 GMEM-9 A/B - normal KGSL power"
+elif [ "$BUILD_VARIANT" == "g8" ]; then
+  variant_name="WN-Turnip-${BUILD_VERSION}-GTAV-A840-GMEM8"
+  variant_desc="GTAV/A840 GMEM-8 A/B - normal KGSL power"
+elif [ "$BUILD_VARIANT" == "g" ]; then
 		variant_name="WN-Turnip-${BUILD_VERSION}-GTAV-A840"
 		variant_desc="WinNative Turnip ${BUILD_VERSION} GTAV/A840 - aggressive autotune, normal KGSL power"
 	else
