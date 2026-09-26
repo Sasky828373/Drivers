@@ -39,7 +39,7 @@ jobs:
       - name: Collect artifact
         run: |
           mkdir -p out
-          cp ../WN-Turnip-2.1-gtav-ab-g9_Axxx.zip out/\n          cp ../WN-Turnip-2.1-gtav-ab-g8_Axxx.zip out/
+          cp ../WN-Turnip-3.0-gtav-submit-gs_Axxx.zip out/
       - uses: actions/upload-artifact@v4
         with:
           name: WN-Turnip-3.0-GTAV-A840-SUBMIT
