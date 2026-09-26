@@ -33,5 +33,11 @@ elif old in s:
     print("  KGSL safe_ioctl: retry EINTR only; EAGAIN returned to caller")
 else:
     print("ERROR: exact safe_ioctl anchor absent; refusing unsafe patch",file=sys.stderr)
+    pos=s.find("safe_ioctl")
+    if pos >= 0:
+        lo=max(0,pos-400); hi=min(len(s),pos+1400)
+        print("----- ACTUAL safe_ioctl CONTEXT -----",file=sys.stderr)
+        print(s[lo:hi],file=sys.stderr)
+        print("----- END CONTEXT -----",file=sys.stderr)
     sys.exit(2)
 print("GTAV A840 V5 KGSL patch applied")
